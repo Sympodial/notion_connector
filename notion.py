@@ -4,10 +4,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 token = os.environ.get("NOTION_TOKEN")
-database_id = os.environ.get("NOTION_DATABASE_ID")
 
-def readDatabase(database_id, token):
-
+def list_databases(token):
     headers = {
         "Authorization": "Bearer " + token,
         "Content-Type": "application/json",
@@ -25,9 +23,10 @@ def readDatabase(database_id, token):
 
     res = requests.request("POST", url, headers=headers, json=payload)
     data = res.json()
-    print(res.status_code)
-    output_json = res.json()
-    print(json.dumps(output_json, indent=4))
+    output = res.json()
+
+    if res.status_code == 200:
+        return output["results"]
 
     """
     with open('./db.json', 'w', encoding='utf8') as f:
@@ -36,4 +35,4 @@ def readDatabase(database_id, token):
 
 
 if __name__ == "__main__":
-    readDatabase(database_id, token)
+    list_databases(token)
