@@ -1,12 +1,10 @@
-from notion import list_databases
+from notion.get_token import get_token
+from notion.list_databases import list_databases
 import os, requests, json
 
-from dotenv import load_dotenv
-load_dotenv()
-
-token = os.environ.get("NOTION_TOKEN")
-
 if __name__ == "__main__":
+    token = get_token()
+
     databases = list_databases(token)
     # print(json.dumps(databases, indent=4))
 
